@@ -1,17 +1,17 @@
-# 1. Étape de build
-FROM maven:3.9.4-eclipse-temurin-21 AS build
-WORKDIR /app
-#COPY /.env ./
-COPY pom.xml .
-COPY src ./src
-RUN mvn clean package -DskipTests
+# Utiliser une image de base officielle Java
+FROM openjdk:21-jdk-alpine
 
-
-# 2. Étape runtime
-FROM openjdk:21-jdk-slim AS run
+# Définir le répertoire de travail
 WORKDIR /app
-# On récupère le jar optimisé
-#COPY --from=build /app/.env .
-COPY --from=build /app/target/*.jar app.jar
+
+# Copier le fichier JAR de l'application dans le conteneur
+COPY target/app.jar app.jar
+
+# Copier le fichier .env dans le conteneur
+COPY .env .env
+
+# Exposer le port sur lequel l'application va tourner
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","app.jar"]
+
+# Commande pour exécuter l'application
+ENTRYPOINT ["java", "-jar", "app.jar"]

@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.Ohara</groupId>
     <artifactId>Corrida_Colosseum</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <name>Corrida_Colosseum</name>
     <description>Corrida_Colosseum</description>
     <url/>
@@ -28,6 +28,7 @@
     </scm>
     <properties>
         <java.version>21</java.version>
+        <final.jar.name>app</final.jar.name>
     </properties>
     <dependencies>
         <dependency>
@@ -131,7 +132,30 @@
 
 
     <build>
+        <finalName>${final.jar.name}</finalName>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.5.3</version>
+                <configuration>
+                    <!-- Inclure les tests unitaires -->
+                    <includes>
+                        **/*Test.java
+                    </includes>
+
+                    <excludes>
+                        **/*ApplicationTests.java
+                    </excludes>
+
+                    <skipTests>true</skipTests>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.4.2</version>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
